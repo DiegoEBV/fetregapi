@@ -39,6 +39,25 @@ io.on('connection', (socket) => {
     }
   });
 
+  // Evento para nuevos pedidos especiales (para llevar y delivery)
+  socket.on('nuevoPedidoEspecial', (data) => {
+    // Emitir a todos los clientes conectados excepto al emisor
+    socket.broadcast.emit('nuevoPedidoEspecial', data);
+  });
+
+  // Evento para pagos realizados
+  socket.on('pagoRealizado', (data) => {
+    // Emitir a todos los clientes conectados excepto al emisor
+    socket.broadcast.emit('pagoRealizado', data);
+  });
+
+  // Evento para anulación de pedidos especiales
+  socket.on('pedidoEspecialAnulado', (data) => {
+    // Emitir a todos los clientes conectados excepto al emisor
+    socket.broadcast.emit('pedidoEspecialAnulado', data);
+  });
+ 
+  
   socket.on('disconnect', () => {
     if (tipo) {
       socket.leave(tipo);
