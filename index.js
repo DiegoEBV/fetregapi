@@ -146,8 +146,9 @@ io.on('connection', (socket) => {
     if (tipo === 'moso') {
       io.to('caja').emit('nuevoPedido', data);
     }
-    // También emitir a todos para sincronización general
-    socket.broadcast.emit('nuevoPedido', data);
+    // Emitir a todos los clientes conectados para sincronización completa
+    io.emit('nuevoPedido', data);
+    console.log('🍽️ Nuevo pedido:', data);
   });
 
   // Evento emitido por caja al responder
@@ -159,22 +160,22 @@ io.on('connection', (socket) => {
 
   // Evento para nuevos pedidos especiales (para llevar y delivery)
   socket.on('nuevoPedidoEspecial', (data) => {
-    // Emitir a todos los clientes conectados excepto al emisor
-    socket.broadcast.emit('nuevoPedidoEspecial', data);
+    // Emitir a todos los clientes conectados para sincronización completa
+    io.emit('nuevoPedidoEspecial', data);
     console.log('🍽️ Nuevo pedido especial:', data);
   });
 
   // Evento para pagos realizados
   socket.on('pagoRealizado', (data) => {
-    // Emitir a todos los clientes conectados excepto al emisor
-    socket.broadcast.emit('pagoRealizado', data);
+    // Emitir a todos los clientes conectados para sincronización completa
+    io.emit('pagoRealizado', data);
     console.log('💰 Pago realizado:', data);
   });
 
   // Evento para anulación de pedidos especiales
   socket.on('pedidoEspecialAnulado', (data) => {
-    // Emitir a todos los clientes conectados excepto al emisor
-    socket.broadcast.emit('pedidoEspecialAnulado', data);
+    // Emitir a todos los clientes conectados para sincronización completa
+    io.emit('pedidoEspecialAnulado', data);
     console.log('❌ Pedido especial anulado:', data);
   });
 
